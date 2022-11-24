@@ -1,0 +1,37 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+?>
+<?php
+/**
+ * Blog latest posts by category template
+ *
+ * @var $block \Magefan\BlogExtra\Block\Post\View\CategoryPosts
+ */
+?>
+
+<?php if ($block->displayPosts()) { ?>
+    <?php $postCollection = $block->getPostCollection(); ?>
+    <?php if (count($postCollection)) { ?>
+    <div class="block related modern mb-10">
+        <div class="block-title title container flex flex-col items-center pt-6 pb-3 mx-auto mb-6 border-b-2 border-gray-300 md:flex-row">
+            <strong id="block-relatedposts-heading" class="text-2xl font-medium text-gray-900 title-font" role="heading" aria-level="2">
+                <?= $block->escapeHtml(__('Latest From %1', $block->getCategory()->getTitle())) ?>
+            </strong>
+        </div>
+        <ol class="block-content pl-5 list-decimal">
+            <?php foreach ($postCollection as $post) { ?>
+                <li class="item mb-2">
+                    <a class="post-item-link hover:underline" title="<?= $block->escapeHtml($post->getTitle()) ?>"
+                       href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                        <?= $block->escapeHtml($post->getTitle()) ?>
+                    </a>
+                </li>
+            <?php } ?>
+        </ol>
+    </div>
+    <?php } ?>
+<?php } ?>
+

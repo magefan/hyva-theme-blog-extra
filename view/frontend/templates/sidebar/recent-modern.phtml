@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog sidebar posts list template
+ *
+ * @var $block \Magefan\Blog\Block\Post\PostList\AbstractList
+ */
+?>
+
+<?php
+$_postCollection = $block->getPostCollection();
+?>
+<?php
+$widthImg = (int)$block->getBackgroundImageWidth() ?: 1000;
+$width = (int)$block->getBlockImageWidth() ?: 300;
+$height = (int)$block->getBlockImageheight() ?: 200;
+$imageHelper = $this->helper(\Magefan\Blog\Helper\Image::class);
+?>
+<?php if ($_postCollection->count()) { ?>
+    <div class="block-<?= $block->escapeHtml(str_replace('_', '-', $block->getWidgetKey())) ?> block-posts-list modern-template mb-10">
+        <div class="block-title text-xl md:text-2xl font-semibold py-2">
+            <?= $block->escapeHtml(__($block->getBlockTitle() ?: 'Recent Posts')) ?>
+        </div>
+        <div class="block-content">
+            <!-- post list -->
+            <div class="post-list flex flex-col gap-6 mt-3">
+                <?php foreach ($_postCollection as $_post) { ?>
+                    <?php
+                        $_postUrl = $block->escapeUrl($_post->getPostUrl());
+                        $_postName = $block->escapeHtml($_post->getTitle());
+                    ?>
+                    <!-- post item -->
+                    <div class="post-item flex gap-4">
+                        <?php if ($block->getDisplayImage()) { ?>
+                            <div class="image-container flex-grow-0 flex-shrink-0 self-start w-4/12">
+                                <a class="image-wrap _4x3 block relative pb-per70 overflow-hidden" title="<?= $_postName ?>" href="<?= $_postUrl ?>">
+                                    <?php
+                                    $featuredImage = $_post->getFeaturedListImg() ?: $_post->getFeaturedImg();
+                                    if ($featuredImage) {
+                                        $featuredImage = $imageHelper->init($featuredImage)->resize($widthImg, null, false);
+                                        $featuredImgAlt = $_post->getData('featured_list_img_alt') ?: $_post->getData('featured_img_alt');
+                                        if (!$featuredImgAlt) {
+                                            $featuredImgAlt = $_postName;
+                                        }
+                                    } else {
+                                        $featuredImage = $this->getViewFileUrl('Magefan_BlogExtra::images/samples/' . rand(1, 8) . '.jpeg');
+                                        $featuredImgAlt  = '';
+                                    }
+                                    ?>
+                                    <div class="animation-type-zoom bg-img mfblogunveil block absolute w-full h-full max-w-full bg-cover bg-center
+hover:scale-110 duration-300" data-original="<?= $block->escapeHtml($featuredImage) ?>"></div>
+                                </a>
+                            </div>
+                        <?php } ?>
+                        <div class="block-info">
+                            <div class="post-title">
+                                <a class="post-item-name font-medium hover:text-red duration-300" title="<?= $_postName ?>" href="<?= $_postUrl ?>">
+                                    <?= $_postName ?>
+                                </a>
+                            </div>
+                            <?php if ($block->getDisplayImage() && $_post->isPublishDateEnabled()) { ?>
+                                <div class="block-date text-xs text-gray-400">
+                                    <span class="post-date"><?= $block->escapeHtml($_post->getPublishDate()) ?></span>
+                                </div>
+                            <?php } ?>
+                            <?php /*
+                            <div class="post-description hidden"></div>
+                            <div class="read-more hidden"></div>
+                            */ ?>
+                        </div>
+                    </div>
+                    <!-- END post item -->
+                <?php } ?>
+            </div>
+            <!-- END post list -->
+        </div>
+    </div>
+<?php } ?>

@@ -1,0 +1,74 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog related posts template
+ *
+ * @var $block \Magefan\Blog\Block\Post\View\RelatedPosts
+ */
+?>
+
+<?php
+$width = (int)$block->getBackgroundImageWidth() ?: 500;
+$imageHelper = $this->helper(\Magefan\Blog\Helper\Image::class);
+?>
+
+<?php if ($block->displayPosts()) { ?>
+    <?php $postCollection = $block->getPostCollection(); ?>
+    <?php if (count($postCollection)) { ?>
+    <div class="mfblog-related-posts-block block related mb-10">
+        <?php if (!$block->getHideTitle()) { ?>
+        <div class="block-title container flex flex-col items-center pt-6 pb-3 mx-auto mb-6 border-b-2 border-gray-300 md:flex-row">
+            <strong id="block-related-posts-heading" class="text-2xl font-medium text-gray-900 title-font"><?= $block->escapeHtml(__('Related Posts')) ?></strong>
+        </div>
+        <?php } ?>
+        <div class="block-content">
+            <!-- post list -->
+            <div class="post-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <?php foreach ($postCollection as $post) { ?>
+                    <?php
+                        $_postUrl = $block->escapeUrl($post->getPostUrl());
+                        $_postName = $block->escapeHtml($post->getTitle());
+                    ?>
+                    <!-- post item -->
+                    <div class="post-item flex flex-col">
+                        <div class="image-container mb-2">
+                            <a class="image-wrap _4x3 block relative _pb-40 pb-per70 overflow-hidden" title="<?= $_postName ?>" href="<?= $_postUrl ?>">
+                                <?php
+                                $featuredImage = $post->getFeaturedListImg() ?: $post->getFeaturedImg();
+                                if ($featuredImage) {
+                                    $featuredImage = $imageHelper->init($featuredImage)->resize($width, null, false);
+                                    $featuredImgAlt = $post->getData('featured_list_img_alt') ?: $post->getData('featured_img_alt');
+                                    if (!$featuredImgAlt) {
+                                        $featuredImgAlt = $_postName;
+                                    }
+                                } else {
+                                    $featuredImage = $this->getViewFileUrl('Magefan_BlogExtra::images/samples/' . rand(1, 8) . '.jpeg');
+                                    $featuredImgAlt  = '';
+                                }
+                                ?>
+                                <div class="animation-type-zoom bg-img mfblogunveil absolute w-full h-full transform hover:scale-110 duration-300" data-original="<?= $block->escapeHtml($featuredImage) ?>"></div>
+                            </a>
+                        </div>
+                        <div class="block-info">
+                            <div class="post-title m-0 mb-2">
+                                <a class="post-item-name" title="<?= $_postName ?>" href="<?= $_postUrl ?>">
+                                    <?= $_postName ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END post item -->
+                <?php } ?>
+            </div>
+            <!-- END post list -->
+        </div>
+    </div>
+    <?php } ?>
+<?php } ?>

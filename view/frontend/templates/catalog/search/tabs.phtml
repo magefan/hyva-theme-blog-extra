@@ -1,0 +1,50 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+?>
+<?php
+/** @var $block \Magefan\BlogExtra\Block\Catalog\Search\Tabs */
+?>
+
+<?php if ($block->getPostsCount()) { ?>
+    <?php
+        $hasProducts = $block->hasProducts();
+        $postsTabUrl = $block->getBlogPostsTabUrl();
+    ?>
+    <?php if ($hasProducts) { ?>
+        <div class="product data items container flex my-6">
+
+            <div class="data item title mr-[-1px] leading-[50px] <?php if ($block->getActiveTabName() == 'product') { ?>active<?php } ?>" id="tab-label-products">
+                <a class="data switch px-8 py-4 border border-b-0 border-gray-300 <?= $block->getActiveTabName() == 'product' ? ' bg-[#fff] ' : ' bg-[#f6f6f6] hover:bg-white ' ?>"
+                   tabindex="-1"
+                   href="<?= $block->escapeUrl($block->getCatalogProductsTabUrl()) ?>"
+                   id="tab-label-products-title">
+                    <?= $block->escapeHtml(__('Products')) ?>
+                </a>
+            </div>
+            <div class="data item title leading-[50px] <?php if ($block->getActiveTabName() == 'blog') { ?>active<?php } ?>" id="tab-label-blog">
+                <a class="data switch px-8 py-4 border border-b-0 border-gray-300 <?= $block->getActiveTabName() == 'blog' ? ' bg-[#fff] ' : ' bg-[#f6f6f6] hover:bg-white ' ?>"
+                   tabindex="-1"
+                   href="<?= $block->escapeUrl($postsTabUrl) ?>"
+                   id="tab-label-blog-title">
+                    <?= $block->escapeHtml(__('Blog')) ?>
+                </a>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if ($block->getActiveTabName() == 'product') { ?>
+        <?php if (!$hasProducts) { ?>
+            <script>
+                require(['jquery', 'loader'], function ($) {
+                    'use strict';
+                    $('body').loader('show');
+                });
+                var postTabUrlConfig = <?= json_encode(['url' => $postsTabUrl]) ?>;
+                window.location = postTabUrlConfig.url;
+            </script>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>

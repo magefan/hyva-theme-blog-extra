@@ -3,10 +3,10 @@
     "description": "Hyva Theme Magefan Blog Extra",
     "type": "magento2-module",
     "require": {
-        "magefan/hyva-theme-blog-plus": ">=2.0.1",
-        "magefan/hyva-theme-blog-author": ">=2.0.1"
+        "magefan/hyva-theme-blog-plus": ">=2.0.2",
+        "magefan/hyva-theme-blog-author": ">=2.0.2"
     },
-    "version": "2.0.1",
+    "version": "2.0.2",
     "autoload": {
         "files": [
             "registration.php"

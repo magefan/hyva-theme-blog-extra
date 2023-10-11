@@ -38,10 +38,6 @@
     <?php if ($block->getActiveTabName() == 'product') { ?>
         <?php if (!$hasProducts) { ?>
             <script>
-                require(['jquery', 'loader'], function ($) {
-                    'use strict';
-                    $('body').loader('show');
-                });
                 var postTabUrlConfig = <?= json_encode(['url' => $postsTabUrl]) ?>;
                 window.location = postTabUrlConfig.url;
             </script>

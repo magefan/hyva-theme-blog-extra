@@ -6,7 +6,7 @@
         "magefan/hyva-theme-blog-plus": ">=2.0.2",
         "magefan/hyva-theme-blog-author": ">=2.0.2"
     },
-    "version": "2.0.2",
+    "version": "2.0.3",
     "autoload": {
         "files": [
             "registration.php"

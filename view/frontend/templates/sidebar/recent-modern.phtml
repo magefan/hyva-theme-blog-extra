@@ -24,7 +24,7 @@ $height = (int)$block->getBlockImageheight() ?: 200;
 $imageHelper = $this->helper(\Magefan\Blog\Helper\Image::class);
 ?>
 <?php if ($_postCollection->count()) { ?>
-    <div class="block-<?= $block->escapeHtml(str_replace('_', '-', $block->getWidgetKey())) ?> block-posts-list modern-template mb-10">
+    <div class="block-<?= $block->escapeHtml(str_replace('_', '-', $block->getWidgetKey() ?: '')) ?> block-posts-list modern-template mb-10">
         <div class="block-title text-xl md:text-2xl font-semibold py-2">
             <?= $block->escapeHtml(__($block->getBlockTitle() ?: 'Recent Posts')) ?>
         </div>
